@@ -1,0 +1,98 @@
+[package]
+name = "qiluo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+migration = { path = "migration" }
+axum = {version="0.7.5",default-features =true, features = ["http1","http2","json","macros","matched-path","original-uri","multipart","tokio","ws","form","query"]}
+casbin = "2.2.0"
+dotenv = "0.15.0"
+fs-err = "2.11.0"
+jsonwebtoken = "9.3.0"
+sea-orm ={ version =  "0.12.15", features = [
+  "sqlx-sqlite",
+  "sqlx-mysql",
+  "runtime-tokio-rustls",
+  "macros",
+] }
+serde = "1.0.203"
+serde_json = "1.0.117"
+serde_variant = "0.1.3"
+serde_yaml = "0.9.34"
+tera = "1.20.0"
+uuid = { version = "1.6", features = ["v4"] }
+tokio =  { version = "1.38.0", features = ["full"] }
+tower-http = { version =  "0.5.2", features = [
+  "trace",
+  "catch-panic",
+  "timeout",
+  "add-extension",
+  "cors",
+  "fs",
+  "set-header",
+  "compression-full",
+] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter","json","local-time", "registry"]}
+validator ={ version = "0.18.1", features = ["derive"] }
+hyper = "1.3.1"
+bytes = "1.6.0"
+http-body-util = "0.1.1"
+axum-extra ={ version =  "0.9.3", features = ["typed-header"]}
+chrono = "0.4.38"
+once_cell = "1.19.0"
+async-trait = "0.1.80"
+lazy_static = "1.4.0"
+argon2 = "0.5.3"
+rand = "0.8.5"
+thiserror = "1.0.61"
+http-body = "1.0.0"
+captcha_rust = "0.1.3"
+indexmap = "2.2.6"
+reqwest ={ version = "0.12.22", features = ["json"] }
+sysinfo = "0.30.12"
+user-agent-parser = "0.3.6"
+lettre =  { version ="0.11.7", default-features = false, features = [
+  "builder",
+  "hostname",
+  "smtp-transport",
+  "tokio1-rustls-tls",
+] }
+bb8 = "0.8.3"
+include_dir = "0.7.3"
+axum-core = "0.4.3"
+eyre = "0.6.12"
+tracing-appender = "0.2.3"
+time = "0.3.36"
+image = "0.25.2"
+tokio-util = "0.7.11"
+num_cpus = "1.16.0"
+gethostname = "0.5.0"
+redis ={version= "0.22",features = [
+    "aio",
+    "default",
+    "tokio-comp",
+     "connection-manager"
+]}
+sha2 = "0.10.8"
+cron_clock = "0.8.0"
+convert_case = "0.6.0"
+hex = "0.4.3"
+headers = "0.4.0"
+futures = "0.3.30"
+tokio-stream = "0.1.15"
+async_static = "0.1.3"
+byte-unit = "5.1.4"
+base64 = "0.22.1"
+aws-lc-rs =  { version ="1.10.0", default-features = false }
+sha1 = "0.10.6"
+serde-xml-rs = "0.8.1"
+aes = "0.8.4"
+cbc = "0.1.2"
+dashmap = "6.1.0"
+bb8-redis = "0.24.0"
+tokio-rustls = "0.26.2"
+axum-server = {version="0.7.2",features=["tls-rustls"]}
+[target.x86_64-unknown-linux-musl.dependencies]
+openssl = { version = "0.10", features = ["vendored"] }
