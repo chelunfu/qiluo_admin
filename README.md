@@ -1,313 +1,313 @@
-# 祺洛 (QiLuo) - Rust 快速开发平台
+# QiLuo - Rust Rapid Development Platform
 <a href="https://www.qiluo.vip/" target="_blank">
   <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" style="max-width: 100%;">
 </a>
 
-**高性能 · 安全可靠 · 企业级应用开发框架**
+**High Performance · Secure and Reliable · Enterprise-grade Application Development Framework**
 
 <div style="display: flex; flex-wrap: wrap; gap: 5px;">
 <a href="https://www.qiluo.vip/" target="_blank"><img src="https://www.qiluo.vip/badge/QiLuo.svg" alt="QiLuo"></a>
 <a href="https://www.rust-lang.org/" target="_blank"><img src="https://www.qiluo.vip/badge/Rust-latest-orange.svg" alt="Rust"></a>
 <a href="https://github.com/tokio-rs/axum" target="_blank"><img src="https://www.qiluo.vip/badge/Axum-latest-blue.svg" alt="Axum"></a>
-<a href="https://github.com/SeaQL/sea-orm" target="_blank"><img src="https://www.qiluo.vip/badge/SeaORM-latest-green.svg" alt="Sea-ORM"></a>
+<a href="https://github.com/SeaQL/sea-orm" target="_blank"><img src="https://www.qiluo.vip/badge/SeaORM-latest-green.svg" alt="SeaORM"></a>
 <a href="https://vuejs.org/" target="_blank"><img src="https://www.qiluo.vip/badge/Vue.js-3.4.x-brightgreen.svg" alt="Vue.js"></a>
 <a href="LICENSE" target="_blank"><img src="https://www.qiluo.vip/badge/License-MIT-yellow.svg" alt="License"></a>
 </div>
 
-## 📖 项目概述
+## 📖 Project Overview
 
-祺洛是一个基于 Rust 技术栈开发的企业级快速开发平台，采用现代化的架构设计，提供完整的后台管理系统解决方案。平台集成了用户管理、权限控制、系统监控、微信公众号管理等核心功能，适用于中小型企业的信息化建设。
+QiLuo is an enterprise-grade rapid development platform built on the Rust technology stack. It adopts modern architectural design and provides a complete backend management system solution. The platform integrates core functions such as user management, permission control, system monitoring, and WeChat official account management, suitable for information construction of small and medium-sized enterprises.
 
-## ✨ 核心特性
+## ✨ Core Features
 
-- **🦀 Rust 生态** — 基于 Rust + Axum + Sea-ORM + JWT 构建，性能卓越，内存安全
-- **🔐 权限管理** — 完整的 RBAC 权限体系，支持用户、角色、菜单、API 多维度权限控制
-- **📱 微信集成** — 内置微信公众号管理，支持菜单配置、消息管理、用户管理、自动回复
-- **⚡ 高性能** — 异步架构，支持高并发，响应速度快
-- **🌐 分布式** — 支持集群部署，多数据源，分布式架构
-- **📊 系统监控** — 实时服务器状态监控，在线用户管理，操作日志追踪
-- **⏰ 定时任务** — 在线配置定时任务，支持 Cron 表达式
-- **🎨 现代化界面** — 基于 Vue 的管理后台，界面美观，操作便捷
+- **🦀 Rust Ecosystem** — Built on Rust + Axum + Sea-ORM + JWT, with excellent performance and memory safety
+- **🔐 Permission Management** — Complete RBAC permission system, supporting multi-dimensional permission control for users, roles, menus, and APIs
+- **📱 WeChat Integration** — Built-in WeChat official account management, supporting menu configuration, message management, user management, and automatic replies
+- **⚡ High Performance** — Asynchronous architecture, supporting high concurrency and fast response speed
+- **🌐 Distributed** — Supports cluster deployment, multiple data sources, and distributed architecture
+- **📊 System Monitoring** — Real-time server status monitoring, online user management, and operation log tracking
+- **⏰ Scheduled Tasks** — Online configuration of scheduled tasks, supporting Cron expressions
+- **🎨 Modern Interface** — Vue-based management backend with a beautiful interface and convenient operation
 
-## 🛠️ 技术栈
+## 🛠️ Technology Stack
 
-### 后端技术
+### Backend Technology
 
-| 技术 | 说明 | 版本 |
+| Technology | Description | Version |
 |------|------|------|
-| **Rust** | 系统开发语言 | >= 1.70.0 |
-| **Axum** | Web 框架 | 最新版 |
-| **Sea-ORM** | ORM 框架 | 最新版 |
-| **Tokio** | 异步运行时 | 最新版 |
-| **MySQL/SQLite** | 数据库 | MySQL >= 8.0 或 SQLite >= 3.35 |
-| **Redis** | 缓存服务 | >= 6.0 |
-| **JWT** | 认证机制 | 最新版 |
-| **tracing** | 日志系统 | 最新版 |
+| **Rust** | System development language | >= 1.70.0 |
+| **Axum** | Web framework | Latest version |
+| **Sea-ORM** | ORM framework | Latest version |
+| **Tokio** | Asynchronous runtime | Latest version |
+| **MySQL/SQLite** | Database | MySQL >= 8.0 or SQLite >= 3.35 |
+| **Redis** | Cache service | >= 6.0 |
+| **JWT** | Authentication mechanism | Latest version |
+| **tracing** | Logging system | Latest version |
 
-### 前端技术
+### Frontend Technology
 
-| 技术 | 说明 | 版本 |
+| Technology | Description | Version |
 |------|------|------|
-| **Vue** | 前端框架 | 3.4.x |
-| **Vite** | 构建工具 | 5.2.x |
-| **TypeScript** | 类型系统 | 5.4.x |
-| **Pinia** | 状态管理 | 2.1.x |
-| **Vue Router** | 路由管理 | 4.3.x |
-| **Element Plus** | UI 组件库 | 2.7.x |
-| **Axios** | HTTP 请求 | 最新版 |
-| **ECharts** | 图表库 | 最新版 |
+| **Vue** | Frontend framework | 3.4.x |
+| **Vite** | Build tool | 5.2.x |
+| **TypeScript** | Type system | 5.4.x |
+| **Pinia** | State management | 2.1.x |
+| **Vue Router** | Routing management | 4.3.x |
+| **Element Plus** | UI component library | 2.7.x |
+| **Axios** | HTTP request | Latest version |
+| **ECharts** | Chart library | Latest version |
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 系统要求
+### System Requirements
 
-在运行项目之前，请确保您的系统已安装以下软件：
+Before running the project, ensure your system has the following software installed:
 
-- **Rust** >= 1.70.0 ([安装指南](https://rustup.rs/))
-- **MySQL** >= 8.0 或 **SQLite** >= 3.35
-- **Redis** >= 6.0 (可选，用于缓存)
-- **Node.js** >= 16.0.0 (前端开发)
+- **Rust** >= 1.70.0 ([Installation Guide](https://rustup.rs/))
+- **MySQL** >= 8.0 or **SQLite** >= 3.35
+- **Redis** >= 6.0 (optional, for caching)
+- **Node.js** >= 16.0.0 (for frontend development)
 
-### 1. 获取源码
+### 1. Obtain Source Code
 
-#### 后端地址：<https://github.com/chelunfu/qiluo_admin.git>
+#### Backend address: <https://github.com/chelunfu/qiluo_admin.git>
 
-#### 克隆后端项目
+#### Clone the backend project
 
 ```bash
 git clone https://github.com/chelunfu/qiluo_admin.git
 cd qiluo_admin
 ```
 
-#### 前端地址：<https://github.com/chelunfu/qiluo_vue.git>
+#### Frontend address: <https://github.com/chelunfu/qiluo_vue.git>
 
-#### 克隆前端项目
+#### Clone the frontend project
 
 ```bash
 git clone https://github.com/chelunfu/qiluo_vue.git
 cd qiluo_vue
 ```
 
-### 2. 配置数据库
+### 2. Configure Database
 
-编辑 `config/` 目录下的配置文件，设置数据库连接信息：
+Edit the configuration file in the `config/` directory to set database connection information:
 
 ```toml
 [database]
 url = "mysql://username:password@localhost:3306/qiluo"
-# 或使用 SQLite
+# Or use SQLite
 # url = "sqlite:data/qiluo.db"
 ```
 
-创建数据库，并导入 qiluo.sql 文件。
+Create the database and import the qiluo.sql file.
 
-### 3. 启动项目
+### 3. Start the Project
 
-#### 启动后端服务
+#### Start the backend service
 
 ```bash
-# 开发模式运行
+# Run in development mode
 cargo run
 
 
-#### 启动前端项目
+#### Start the frontend project
 
 ```bash
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 启动开发服务器
+# Start the development server
 pnpm run dev
 ```
 
-### 4. 访问系统
+### 4. Access the System
 
-服务启动后，访问以下地址：
+After the service starts, access the following address:
 
-- **管理后台**：<http://localhost:4000>
+- **Management backend**: <http://localhost:4000>
 
-## 🔧 生产环境部署
+## 🔧 Production Environment Deployment
 
-### 后端部署
+### Backend Deployment
 
 ```bash
-# 构建 Release 版本
+# Build Release version
 cargo build --release
 
-# 运行 Release 版本
+# Run Release version
 ./target/release/qiluo
 ```
 
-### 前端部署
+### Frontend Deployment
 
 ```bash
-# 生产环境构建
+# Build for production environment
 pnpm build:pro
 
-# 构建产物位于 dist 目录，可部署到任意静态服务器
+# The build output is in the dist directory, which can be deployed to any static server
 ```
 
-## 📁 项目结构
+## 📁 Project Structure
 
-### 后端目录结构
+### Backend Directory Structure
 
 ```
 qiluo/
-├── 📁 config/               # 配置文件
-├── 📁 data/                 # 数据存储目录
-│   ├── 📁 img/              # 图片资源
-│   ├── 📁 log/              # 日志文件
-│   ├── 📁 static/           # 静态资源
-│   ├── 📁 upload/           # 上传文件
-│   └── 📁 web/              # 前端文件
-├── 📁 migration/            # 数据库迁移
-├── 📁 src/                  # 源代码
-│   ├── 📁 api/              # API 控制器
-│   │   ├── 📁 sys_controll/ # 系统管理接口
-│   │   └── 📁 wechat/       # 微信接口
-│   ├── 📁 cache/            # 缓存管理
-│   ├── 📁 common/           # 公共模块
-│   ├── 📁 config/           # 配置模块
-│   ├── 📁 midle_ware/       # 中间件
-│   ├── 📁 model/            # 数据模型
-│   ├── 📁 service/          # 业务服务
-│   └── 📁 worker/           # 后台任务
-└── 📄 Cargo.toml            # 项目配置
+├── 📁 config/               # Configuration files
+├── 📁 data/                 # Data storage directory
+│   ├── 📁 img/              # Image resources
+│   ├── 📁 log/              # Log files
+│   ├── 📁 static/           # Static resources
+│   ├── 📁 upload/           # Uploaded files
+│   └── 📁 web/              # Frontend files
+├── 📁 migration/            # Database migrations
+├── 📁 src/                  # Source code
+│   ├── 📁 api/              # API controllers
+│   │   ├── 📁 sys_controll/ # System management interfaces
+│   │   └── 📁 wechat/       # WeChat interfaces
+│   ├── 📁 cache/            # Cache management
+│   ├── 📁 common/           # Common modules
+│   ├── 📁 config/           # Configuration module
+│   ├── 📁 midle_ware/       # Middleware
+│   ├── 📁 model/            # Data models
+│   ├── 📁 service/          # Business services
+│   └── 📁 worker/           # Background tasks
+└── 📄 Cargo.toml            # Project configuration
 ```
 
-### 前端目录结构
+### Frontend Directory Structure
 
 ```
 qiluo_vue/
-├── 📁 public/               # 静态资源目录
-├── 📁 src/                  # 源代码目录
-│   ├── 📁 api/              # API 接口定义
-│   ├── 📁 assets/           # 项目资源文件
-│   ├── 📁 axios/            # Axios 请求配置
-│   ├── 📁 components/       # 公共组件
-│   ├── 📁 constants/        # 常量定义
-│   ├── 📁 directives/       # 自定义指令
-│   ├── 📁 hooks/            # 自定义 Hook
-│   ├── 📁 layout/           # 布局组件
-│   ├── 📁 locales/          # 国际化资源
-│   ├── 📁 plugins/          # 插件配置
-│   ├── 📁 router/           # 路由配置
-│   ├── 📁 store/            # 状态管理
-│   ├── 📁 styles/           # 样式文件
-│   ├── 📁 utils/            # 工具函数
-│   ├── 📁 views/            # 页面视图
-│   ├── 📄 App.vue           # 根组件
-│   ├── 📄 main.ts           # 应用入口文件
-│   └── 📄 permission.ts     # 权限控制
-├── 📁 types/                # TypeScript 类型定义
-├── 📄 index.html            # HTML 模板
-├── 📄 package.json          # 项目依赖
-└── 📄 vite.config.ts        # Vite 配置
+├── 📁 public/               # Static resources directory
+├── 📁 src/                  # Source code directory
+│   ├── 📁 api/              # API interface definitions
+│   ├── 📁 assets/           # Project resource files
+│   ├── 📁 axios/            # Axios request configuration
+│   ├── 📁 components/       # Common components
+│   ├── 📁 constants/        # Constant definitions
+│   ├── 📁 directives/       # Custom directives
+│   ├── 📁 hooks/            # Custom Hooks
+│   ├── 📁 layout/           # Layout components
+│   ├── 📁 locales/          # Internationalization resources
+│   ├── 📁 plugins/          # Plugin configurations
+│   ├── 📁 router/           # Routing configuration
+│   ├── 📁 store/            # State management
+│   ├── 📁 styles/           # Style files
+│   ├── 📁 utils/            # Utility functions
+│   ├── 📁 views/            # Page views
+│   ├── 📄 App.vue           # Root component
+│   ├── 📄 main.ts           # Application entry file
+│   └── 📄 permission.ts     # Permission control
+├── 📁 types/                # TypeScript type definitions
+├── 📄 index.html            # HTML template
+├── 📄 package.json          # Project dependencies
+└── 📄 vite.config.ts        # Vite configuration
 ```
 
-## 📖 功能模块
+## 📖 Function Modules
 
-### 系统管理
+### System Management
 
-- 👥 **用户管理** — 用户增删改查、密码重置、头像上传
-- 🔐 **角色管理** — 角色创建、权限分配、用户关联
-- 🏢 **部门管理** — 组织架构树形管理
-- 📋 **菜单管理** — 系统菜单配置和权限控制
-- 📚 **数据字典** — 系统字典数据管理
-- 📊 **系统监控** — 服务器状态、在线用户监控
-- 📝 **日志管理** — 操作日志、登录日志记录
-- ⏰ **定时任务** — 任务配置、执行监控
-- 🔌 **API 权限** — 接口级权限控制
+- 👥 **User Management** — User CRUD, password reset, avatar upload
+- 🔐 **Role Management** — Role creation, permission assignment, user association
+- 🏢 **Department Management** — Organizational structure tree management
+- 📋 **Menu Management** — System menu configuration and permission control
+- 📚 **Data Dictionary** — System dictionary data management
+- 📊 **System Monitoring** — Server status, online user monitoring
+- 📝 **Log Management** — Operation logs, login log records
+- ⏰ **Scheduled Tasks** — Task configuration, execution monitoring
+- 🔌 **API Permissions** — Interface-level permission control
 
-### 微信管理
+### WeChat Management
 
-- 📱 **公众号管理** — 多账号配置管理
-- 📋 **菜单管理** — 自定义菜单创建发布
-- 💬 **消息管理** — 消息收发和历史记录
-- 👤 **用户管理** — 粉丝信息管理
-- 🤖 **自动回复** — 关键词智能回复
+- 📱 **Official Account Management** — Multi-account configuration management
+- 📋 **Menu Management** — Custom menu creation and publishing
+- 💬 **Message Management** — Message sending/receiving and history records
+- 👤 **User Management** — Fan information management
+- 🤖 **Auto-reply** — Keyword intelligent reply
 
-## 🔑 默认账户
+## 🔑 Default Account
 
-初次运行系统时，可使用以下默认管理员账户登录：
+When running the system for the first time, you can log in with the following default administrator account:
 
-- **用户名**：admin
-- **密码**：123456
+- **Username**: admin
+- **Password**: 123456
 
-> ⚠️ **安全提示**：首次登录后请立即修改默认密码！
+> ⚠️ **Security Note**: Please change the default password immediately after the first login!
 
-## 🌐 浏览器支持
+## 🌐 Browser Support
 
-本系统支持现代浏览器，不支持 IE：
+This system supports modern browsers and does not support IE:
 
 | [<img src="http://www.qiluo.vip/assets/icon/edge_48x48.png" alt="Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="http://www.qiluo.vip/assets/icon/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="http://www.qiluo.vip/assets/icon/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="http://www.qiluo.vip/assets/icon/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | :-: | :-: | :-: | :-: |
 | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-## 📷 系统截图
+## 📷 System Screenshots
 
 <table>
   <tr>
-    <td><img src="https://www.qiluo.vip/assets/images/1.jpg" alt="截图1" /></td>
-    <td><img src="https://www.qiluo.vip/assets/images/2.jpg" alt="截图2" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/1.jpg" alt="Screenshot 1" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/2.jpg" alt="Screenshot 2" /></td>
   </tr>
   <tr>
-    <td><img src="https://www.qiluo.vip/assets/images/3.jpg" alt="截图3" /></td>
-    <td><img src="https://www.qiluo.vip/assets/images/4.jpg" alt="截图4" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/3.jpg" alt="Screenshot 3" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/4.jpg" alt="Screenshot 4" /></td>
   </tr>
   <tr>
-    <td><img src="https://www.qiluo.vip/assets/images/5.jpg" alt="截图5" /></td>
-    <td><img src="https://www.qiluo.vip/assets/images/6.jpg" alt="截图6" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/5.jpg" alt="Screenshot 5" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/6.jpg" alt="Screenshot 6" /></td>
   </tr>
   <tr>
-    <td><img src="https://www.qiluo.vip/assets/images/7.jpg" alt="截图7" /></td>
-    <td><img src="https://www.qiluo.vip/assets/images/8.jpg" alt="截图8" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/7.jpg" alt="Screenshot 7" /></td>
+    <td><img src="https://www.qiluo.vip/assets/images/8.jpg" alt="Screenshot 8" /></td>
   </tr>
 </table>
 
-> 更多截图请访问[官方网站](https://www.qiluo.vip)查看
+> For more screenshots, please visit the [official website](https://www.qiluo.vip)
 
-## 🐛 问题反馈
+## 🐛 Issue Feedback
 
-如果您在使用过程中遇到问题，请通过以下方式反馈：
+If you encounter problems during use, please provide feedback through the following methods:
 
-1. **GitHub Issues**：[提交问题](https://github.com/chelunfu/qiluo_admin/issues)
-2. **官方网站**：<https://www.qiluo.vip>
-3. **技术交流**：欢迎加入我们的技术交流[QQ群](https://qm.qq.com/q/zI4N0SkwnI)，与其他用户交流，分享你的问题，并寻求他们的帮助。
+1. **GitHub Issues**: [Submit an issue](https://github.com/chelunfu/qiluo_admin/issues)
+2. **Official Website**: <https://www.qiluo.vip>
+3. **Technical Exchange**: Welcome to join our technical exchange [QQ group](https://qm.qq.com/q/zI4N0SkwnI) to communicate with other users, share your problems, and seek their help.
 
-## 🤝 贡献指南
+## 🤝 Contribution Guide
 
-我们欢迎任何形式的贡献，包括但不限于：
+We welcome contributions in any form, including but not limited to:
 
-- 🐛 提交 Bug 报告
-- 💡 提出新功能建议
-- 📝 完善文档
-- 🔧 提交代码补丁
+- 🐛 Submitting bug reports
+- 💡 Proposing new feature suggestions
+- 📝 Improving documentation
+- 🔧 Submitting code patches
 
-在提交贡献之前，请阅读我们的 [贡献指南](CONTRIBUTING.md)。
+Before submitting contributions, please read our [Contribution Guide](CONTRIBUTING.md).
 
-## 💰 成为赞助商
+## 💰 Become a Sponsor
 
-如果你愿意支持本项目的发展，可以通过以下方式成为赞助商：
+If you would like to support the development of this project, you can become a sponsor through the following ways:
 
 <div align="center">
   <table>
     <tr>
-      <td align="center"><img src="https://www.qiluo.vip/assets/sponsor/wechat.jpg" width="200" alt="微信支付" /><br><strong>微信支付</strong></td>
-      <td align="center"><img src="https://www.qiluo.vip/assets/sponsor/alipay.jpg" width="200" alt="支付宝" /><br><strong>支付宝</strong></td>
+      <td align="center"><img src="https://www.qiluo.vip/assets/sponsor/wechat.jpg" width="200" alt="WeChat Pay" /><br><strong>WeChat Pay</strong></td>
+      <td align="center"><img src="https://www.qiluo.vip/assets/sponsor/alipay.jpg" width="200" alt="Alipay" /><br><strong>Alipay</strong></td>
     </tr>
   </table>
 </div>
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证，详情请参阅 [LICENSE](LICENSE) 文件。
+This project is licensed under the MIT License. For details, please refer to the [LICENSE](LICENSE) file.
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-感谢所有支持这个项目的赞助商和贡献者，你们的支持让这个项目能够更好地发展。
+Thank all sponsors and contributors who support this project; your support enables this project to develop better.
 
-特别感谢以下开源项目：
+Special thanks to the following open-source projects:
 
 - [Rust](https://www.rust-lang.org/ "Rust Programming Language")
 - [Vue.js](https://vuejs.org/ "Vue.js Framework")
@@ -326,6 +326,6 @@ qiluo_vue/
 
 <div align="center">
 
-**⭐ 如果这个项目对您有帮助，请给我一个 Star！**
+**⭐ If this project is helpful to you, please give me a Star!**
 
 </div>
