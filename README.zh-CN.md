@@ -70,24 +70,71 @@
 
 ### 1. 获取源码
 
-#### 后端地址：<https://github.com/chelunfu/qiluo_admin.git>
+#### 后端地址
 
 #### 克隆后端项目
-
+##### GitHub <https://github.com/chelunfu/qiluo_admin.git>
 ```bash
 git clone https://github.com/chelunfu/qiluo_admin.git
 cd qiluo_admin
 ```
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_admin.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_admin.git
+cd qiluo_admin
+```
 
-#### 前端地址：<https://github.com/chelunfu/qiluo_vue.git>
+##### Gitee <https://gitee.com/chenlunfu/qiluo_admin.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_admin.git
+cd qiluo_admin
+```
+
+#### 前端地址
 
 #### 克隆前端项目
-
+---
+##### GitHub <https://github.com/chelunfu/qiluo_vue.git>
 ```bash
 git clone https://github.com/chelunfu/qiluo_vue.git
 cd qiluo_vue
 ```
-
+---
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_vue.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_vue.git
+cd qiluo_vue
+```
+---
+##### Gitee <https://gitee.com/chenlunfu/qiluo_vue.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_vue.git
+cd qiluo_vue
+```
+---
+#### Tauri版本地址
+---
+##### GitHub <https://github.com/chelunfu/qiluo_tauri.git>
+```bash
+git clone https://github.com/chelunfu/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_tauri.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
+##### Gitee <https://gitee.com/chenlunfu/qiluo_tauri.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
 ### 2. 配置数据库
 
 编辑 `config/` 目录下的配置文件，设置数据库连接信息：
@@ -271,7 +318,9 @@ qiluo_vue/
 
 如果您在使用过程中遇到问题，请通过以下方式反馈：
 
-1. **GitHub Issues**：[提交问题](https://github.com/chelunfu/qiluo_admin/issues)
+1. **GitHub Issues**：[Git Issuse](https://github.com/chelunfu/qiluo_admin/issues)
+2. **Git Code**:[GitCode Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
+2. **Gitee**:[Gitee Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
 2. **官方网站**：<https://www.qiluo.vip>
 3. **技术交流**：欢迎加入我们的技术交流[QQ群](https://qm.qq.com/q/zI4N0SkwnI)，与其他用户交流，分享你的问题，并寻求他们的帮助。
 

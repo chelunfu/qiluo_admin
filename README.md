@@ -70,24 +70,73 @@ Before running the project, ensure your system has the following software instal
 
 ### 1. Obtain Source Code
 
-#### Backend address: <https://github.com/chelunfu/qiluo_admin.git>
+#### Backend address:
 
 #### Clone the backend project
-
+---
+##### GitHub <https://github.com/chelunfu/qiluo_admin.git>
 ```bash
 git clone https://github.com/chelunfu/qiluo_admin.git
 cd qiluo_admin
 ```
-
-#### Frontend address: <https://github.com/chelunfu/qiluo_vue.git>
+---
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_admin.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_admin.git
+cd qiluo_admin
+```
+---
+##### Gitee <https://gitee.com/chenlunfu/qiluo_admin.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_admin.git
+cd qiluo_admin
+```
+---
+#### Frontend address
 
 #### Clone the frontend project
-
+---
+##### GitHub <https://github.com/chelunfu/qiluo_vue.git>
 ```bash
 git clone https://github.com/chelunfu/qiluo_vue.git
 cd qiluo_vue
 ```
+---
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_vue.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_vue.git
+cd qiluo_vue
+```
+---
+##### Gitee <https://gitee.com/chenlunfu/qiluo_vue.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_vue.git
+cd qiluo_vue
+```
 
+#### Tauri address
+---
+##### GitHub <https://github.com/chelunfu/qiluo_tauri.git>
+```bash
+git clone https://github.com/chelunfu/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
+##### GitCode <https://gitcode.com/will_csdn_go/qiluo_tauri.git>
+![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
+```bash
+git clone https://gitcode.com/will_csdn_go/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
+##### Gitee <https://gitee.com/chenlunfu/qiluo_tauri.git>
+```bash
+git clone https://gitee.com/chenlunfu/qiluo_tauri.git
+cd qiluo_tauri
+```
+---
 ### 2. Configure Database
 
 Edit the configuration file in the `config/` directory to set database connection information:
