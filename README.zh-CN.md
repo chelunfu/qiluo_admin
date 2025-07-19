@@ -155,14 +155,12 @@ url = "mysql://username:password@localhost:3306/qiluo"
 ```bash
 # 开发模式运行
 cargo run
-
-
+```
 #### 启动前端项目
 
 ```bash
 # 安装依赖
 pnpm install
-
 # 启动开发服务器
 pnpm run dev
 ```
@@ -320,9 +318,9 @@ qiluo_vue/
 
 1. **GitHub Issues**：[Git Issuse](https://github.com/chelunfu/qiluo_admin/issues)
 2. **Git Code**:[GitCode Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
-2. **Gitee**:[Gitee Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
-2. **官方网站**：<https://www.qiluo.vip>
-3. **技术交流**：欢迎加入我们的技术交流[QQ群](https://qm.qq.com/q/zI4N0SkwnI)，与其他用户交流，分享你的问题，并寻求他们的帮助。
+3. **Gitee**:[Gitee Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
+4. **官方网站**：<https://www.qiluo.vip>
+5. **技术交流**：欢迎加入我们的技术交流[QQ群](https://qm.qq.com/q/zI4N0SkwnI)，与其他用户交流，分享你的问题，并寻求他们的帮助。
 
 ## 🤝 贡献指南
 

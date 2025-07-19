@@ -157,7 +157,7 @@ Create the database and import the qiluo.sql file.
 ```bash
 # Run in development mode
 cargo run
-
+```
 
 #### Start the frontend project
 
@@ -320,9 +320,11 @@ This system supports modern browsers and does not support IE:
 
 If you encounter problems during use, please provide feedback through the following methods:
 
-1. **GitHub Issues**: [Submit an issue](https://github.com/chelunfu/qiluo_admin/issues)
-2. **Official Website**: <https://www.qiluo.vip>
-3. **Technical Exchange**: Welcome to join our technical exchange [QQ group](https://qm.qq.com/q/zI4N0SkwnI) to communicate with other users, share your problems, and seek their help.
+1. **GitHub Issues**：[Git Issuse](https://github.com/chelunfu/qiluo_admin/issues)
+2. **Git Code**:[GitCode Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
+3. **Gitee**:[Gitee Issuse](https://gitcode.com/will_csdn_go/qiluo_admin/issues)
+4. **Official Website**: <https://www.qiluo.vip>
+5. **Technical Exchange**: Welcome to join our technical exchange [QQ group](https://qm.qq.com/q/zI4N0SkwnI) to communicate with other users, share your problems, and seek their help.
 
 ## 🤝 Contribution Guide
 
