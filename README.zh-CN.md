@@ -376,3 +376,11 @@ qiluo_vue/
 **⭐ 如果这个项目对您有帮助，请给我一个 Star！**
 
 </div>
+
+## 📚 入门文档
+
+- [快速上手：本地运行后端](docs/01-quickstart-backend.md)
+- [配置说明：development.yaml 与环境变量](docs/02-config-guide.md)
+- [认证与鉴权：Captcha 与 JWT 登录](docs/03-auth-and-permissions.md)
+- [API 开发：新增一个系统接口](docs/04-develop-an-api.md)
+- [数据库与迁移：初始化与模型概览](docs/05-database-and-migrations.md)
