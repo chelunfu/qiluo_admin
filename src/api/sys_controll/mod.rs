@@ -98,13 +98,7 @@ fn menu() -> WebPath {
 }
 
 fn sys_user() -> WebPath {
-    WebPath::new()
-        .route(
-            "/userinfo",
-            WebPathType::Get,
-            Some("获取用户信息"),
-            get(s_sys_user::userinfo),
-        )
+    WebPath::new() 
         .route(
             "/list",
             WebPathType::Get,

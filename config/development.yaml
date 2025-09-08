@@ -65,7 +65,7 @@ workers:
 # Database Configuration
 database:
   # Database connection URI
-  uri: {{get_env(name="DATABASE_URL",default="mysql://qiluo:Qiluo123@localhost:3306/qiluoopen")}}
+  uri: {{get_env(name="DATABASE_URL",default="mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluoopen")}}
   # When enabled, the sql query will be logged.
   enable_logging: false
   # Set the timeout duration when acquiring a connection.

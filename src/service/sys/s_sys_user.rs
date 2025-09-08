@@ -188,7 +188,7 @@ pub async fn refersh_token(userinfo: UserInfo) -> impl IntoResponse {
         rid: userinfo.rid,
         username: userinfo.username,
     };
-    let token_id: i64 = GID().await;
+    let token_id: i64 =userinfo.token_id;
     let token = jwt::authorize(authplay.clone(), token_id).await.unwrap();
     let white_edit = WhiteJwtEdit {
         token_expr: token.exp,
@@ -218,25 +218,7 @@ pub async fn change_password(VJson(arg): VJson<ChangePasswordParams>) -> impl In
     info!("user:{:?}", user);
     ApiResponse::from_result(user)
 }
-pub async fn userinfo(_: UserInfo) -> impl IntoResponse {
-    let ruserandrole = SysUserModel::role().await;
-    let userandrole = match ruserandrole {
-        Ok(userandrole) => userandrole,
-        Err(e) => {
-            return ApiResponse::bad_request(e.to_string());
-        }
-    };
-    let userinfo = UserInfoRes {
-        username: userandrole.user_name,
-        nickname: userandrole.nick_name,
-        email: userandrole.email,
-        phone: userandrole.phonenumber,
-        did: userandrole.dept_id,
-        rid: userandrole.role_id,
-        avatar: userandrole.avatar,
-    };
-    ApiResponse::ok(userinfo)
-}
+ 
 
 pub async fn list(
     VQuery(arg): VQuery<PageParams>,
