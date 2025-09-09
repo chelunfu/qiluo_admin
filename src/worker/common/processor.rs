@@ -7,6 +7,7 @@ use tokio::select;
 use tokio::task::JoinSet;
 use tokio_util::sync::CancellationToken;
 use tracing::{debug, error};
+use chrono::{DateTime, Duration, Utc};
 #[derive(Clone, Eq, PartialEq, Debug)]
 pub enum WorkFetcher {
     NoWorkFound,
@@ -27,7 +28,6 @@ impl Processor {
         Self {
             workers: BTreeMap::new(),
             periodic_jobs: vec![],
-
             queues: queues
                 .iter()
                 .map(|queue| format!("queue:{queue}"))
@@ -65,14 +65,72 @@ impl Processor {
 
     pub async fn process_one_tick_once(&mut self) -> Result<WorkFetcher> {
         let work = self.fetch().await?;
-
         if work.is_none() {
             tokio::task::yield_now().await;
             return Ok(WorkFetcher::NoWorkFound);
         }
+        let mut work = work.expect("polled and found some work");
+
+        if let Some(worker) = self.workers.get_mut(&work.job.class) {
+            let worker = worker.clone();
+            match worker.call(work.job.args.clone()).await {
+                Ok(_) => {
+                  
+                }
+                Err(err) => { 
+                    let mut job = work.job.clone();
+                    job.error_message = Some(format!("{:?}", err));
+                    let retry_count = job.retry_count.unwrap_or(0) + 1;
+                    if job.retry_count.is_some() {
+                        job.retried_at = Some(Utc::now().timestamp() as f64);
+                    } else {
+                        job.failed_at = Some(Utc::now().timestamp() as f64);
+                    }
+                    job.retry_count = Some(retry_count);
+ 
+                    let max = worker.max_retries();
+                    if retry_count > max {
+                        error!({
+                        "status" = "fail",
+                        "class"  = &job.class,
+                        "queue"  = &job.queue,
+                        "jid"    = &job.jid,
+                        "err"    = &job.error_message
+                    }, "Max retries exceeded, will not reschedule job");
+               
+                    } else { 
+                        let at = Self::calc_next_retry_at(retry_count);
+                        Self::schedule_retry(&job, at).await?;
+                    }
+                }
+            }
+        } else { 
+            error!({
+            "status" = "fail",
+            "class"  = &work.job.class,
+            "queue"  = &work.job.queue,
+            "jid"    = &work.job.jid
+        }, "Worker not found, re-enqueue immediately");
+            work.reenqueue().await?;
+        }
+
         Ok(WorkFetcher::Done)
     }
+    fn calc_next_retry_at(retry_count: usize) -> chrono::DateTime<Utc> {
+        let exp = retry_count.min(10) as u32;
+        let delay_secs = (1_i64 << exp) * 5;
+        let delay_secs = delay_secs.min(3600);
+        Utc::now() + Duration::seconds(delay_secs)
+    }
+ 
+    async fn schedule_retry(job: &Job, at: DateTime<Utc>) -> Result<()> {
+        let cache = CacheManager::instance().await;
+        let payload = serde_json::to_string(job)?;
+        let score = at.timestamp_millis() as f64;
 
+        cache.zadd("retry", payload, score).await?;
+        Ok(())
+    }
     pub fn register<
         Args: Sync + Send + for<'de> serde::Deserialize<'de> + 'static,
         W: Worker<Args> + 'static,
