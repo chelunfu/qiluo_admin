@@ -254,6 +254,21 @@ qiluo_vue/
 └── 📄 vite.config.ts        # Vite configuration
 ```
 
+## Tutorial Addresses
+
+
+1. **Main Tutorial Address**  
+   - **Link**: https://www.qiluo.vip/tutorial/  
+   - **Description**: This is the root page of the tutorials, which may include a directory, index, or overview of all tutorials. It is recommended to start browsing the overall content from here.
+
+2. **Quick Start Tutorial**  
+   - **Link**: https://www.qiluo.vip/tutorial/getting-started/new-model.html  
+   - **Description**: Focused on quick entry for beginners, with a specific topic on "new-model" (which may involve creating new models). Suitable for beginners to quickly get started with the platform's basic operations. Can be paired with the test module for reading and understanding.
+
+3. **Auto-Generate Code Tutorial**  
+   - **Link**: https://www.qiluo.vip/tutorial/getting-started/auto-generate.html  
+   - **Description**: Focused on the "auto-generate" (automatic code generation) feature. It may include steps, examples, and best practices to help users automate the code generation process.
+
 ## 📖 Function Modules
 
 ### System Management

@@ -250,6 +250,23 @@ qiluo_vue/
 └── 📄 vite.config.ts        # Vite 配置
 ```
 
+## 教程地址
+1. **主教程地址**  
+   - **链接**：https://www.qiluo.vip/tutorial/  
+   - **描述**：这是教程的根页面，可能包含所有教程的目录、索引或概述。建议从这里开始浏览整体内容。
+
+2. **快速上手教程**  
+   - **链接**：https://www.qiluo.vip/tutorial/getting-started/new-model.html  
+   - **描述**：专注于新手快速入门，具体主题是“new-model”（可能涉及创建新模型）。适合初学者快速上手平台的基本操作。可配合test模块可供阅读理解
+
+3. **自动生成代码教程**  
+   - **链接**：https://www.qiluo.vip/tutorial/getting-started/auto-generate.html  
+   - **描述**：专注于“auto-generate”（自动生成代码）的功能。可能包括步骤、示例和最佳实践，帮助用户自动化代码生成过程。
+
+### 建议使用流程
+- **步骤1**：访问主教程地址（https://www.qiluo.vip/tutorial/）了解整体框架。
+- **步骤2**：如果您是新手，先阅读快速上手教程（new-model），掌握基础。
+- **步骤3**：深入学习自动生成代码教程，应用到实际场景中。
 ## 📖 功能模块
 
 ### 系统管理
