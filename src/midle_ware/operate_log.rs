@@ -173,7 +173,7 @@ async fn db_log(
             oper_param: Some({
                 let txt = ctx.path_params;
                 if txt.len() > 2048 {
-                    let truncated = &txt[..2000];
+                    let truncated = &txt[..2000];  
                     format!("{truncated} ...数据太长，不记录完整内容。")
                 } else {
                     txt
