@@ -11,7 +11,7 @@ use validator::Validate;
 #[derive(Debug, Clone, Copy, Default)]
 pub struct VForm<T>(pub T);
 
-#[async_trait]
+ 
 impl<T, S> FromRequest<S> for VForm<T>
 where
     T: DeserializeOwned + Validate,

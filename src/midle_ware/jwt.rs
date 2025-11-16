@@ -1,6 +1,5 @@
 use crate::service::sys::s_sys_white_jwt;
 use axum::{
-    async_trait,
     extract::FromRequestParts,
     http::{request::Parts, StatusCode},
     response::{IntoResponse, Response},
@@ -63,8 +62,7 @@ pub struct Claims {
     pub username: String,
     pub exp: i64,
 }
-
-#[async_trait]
+ 
 impl<S> FromRequestParts<S> for UserInfo
 where
     S: Send + Sync,

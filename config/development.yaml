@@ -102,7 +102,7 @@ logger:
 
 cache:
   # Cache type, options: redis, memory
-  cache_type: redis
+  cache_type: memory
   namespace: qiluo  
   pool_size: 12
   # Queue Configuration

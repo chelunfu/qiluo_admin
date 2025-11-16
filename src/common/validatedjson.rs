@@ -11,8 +11,7 @@ use validator::Validate;
 
 #[derive(Debug, Clone, Copy, Default)]
 pub struct VJson<T>(pub T);
-
-#[async_trait]
+ 
 impl<T, S> FromRequest<S> for VJson<T>
 where
     T: DeserializeOwned + Validate,

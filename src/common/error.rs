@@ -93,14 +93,12 @@ impl_error_from!(
     lettre::address::AddressError,
     lettre::transport::smtp::Error,
     serde_json::Error,
-    reqwest::Error,
-    redis::RedisError,
+    reqwest::Error, 
     cron_clock::error::Error,
     std::num::ParseIntError,
     std::num::ParseFloatError,
     std::str::Utf8Error,
-    bb8_redis::redis::RedisError,
-    bb8::RunError<bb8_redis::redis::RedisError>,
+    bb8_redis::redis::RedisError, 
     bb8_redis::bb8::RunError<bb8_redis::redis::RedisError>
 );
 

@@ -12,7 +12,6 @@ use validator::Validate;
 #[derive(Debug, Clone, Copy, Default)]
 pub struct VQuery<T>(pub T);
 
-#[async_trait]
 impl<T, S> FromRequestParts<S> for VQuery<T>
 where
     T: DeserializeOwned + Validate,

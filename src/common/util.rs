@@ -1,5 +1,5 @@
 use argon2::{
-    password_hash::SaltString, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier,
+    password_hash::{SaltString,rand_core::OsRng}, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier,
     Version,
 };
 
@@ -11,7 +11,7 @@ pub fn hash_password(pass: &str) -> Result<String> {
         argon2::Version::V0x13,
         Params::default(),
     );
-    let salt: SaltString = SaltString::generate(&mut rand::rngs::OsRng);
+    let salt: SaltString = SaltString::generate(&mut OsRng);
 
     Ok(arg2
         .hash_password(pass.as_bytes(), &salt)

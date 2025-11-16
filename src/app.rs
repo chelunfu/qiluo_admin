@@ -106,11 +106,11 @@ impl App {
         let serverconfig = APPCOFIG.server.clone();
         let staticdir = ServeDir::new(serverconfig.static_dir);
         let webdir = ServeDir::new(serverconfig.web_dir);
-        Router::new()
-            .nest_service("/", webdir)
+        Router::new() 
             .nest_service("/static", staticdir)
             .nest("/api", self.set_auth_middleware(WebApi::routers()))
             .nest("/api", WebApi::white_routers())
+            .fallback_service(webdir)
             .layer(middleware::from_fn(RequestLogMid))
     }
 

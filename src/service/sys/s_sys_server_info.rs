@@ -34,7 +34,7 @@ fn get_oper_sys_info() -> SysInfo {
     };
     let process = match sys.process(pid) {
         Some(p) => Process {
-            name: p.name().to_string(),
+            name: format!("{}", p.name().display()),
             used_memory: p.memory(),
             used_virtual_memory: p.virtual_memory(),
             cup_usage: p.cpu_usage(),
@@ -63,15 +63,16 @@ fn get_oper_sys_info() -> SysInfo {
             total_transmitted: data.total_transmitted(),
         });
     }
+    let cpus = sys.cpus();
+    let avg_freq: u64 = cpus.iter().map(|c| c.frequency()).sum::<u64>() / cpus.len() as u64;
     let cpu = Cpu {
         name: sys.cpus()[0].brand().to_string(),
         arch: std::env::consts::ARCH.to_string(),
-        cores: sys
-            .physical_core_count()
+        cores: System::physical_core_count()
             .map(|c| c.to_string())
             .unwrap_or_else(|| "Unknown".to_owned()),
-        total_use: sys.global_cpu_info().cpu_usage(),
-        frequency: sys.global_cpu_info().frequency(),
+        total_use: sys.global_cpu_usage(),
+        frequency: avg_freq,
         processors: sys.cpus().len(),
     };
     let load_avg = System::load_average();
