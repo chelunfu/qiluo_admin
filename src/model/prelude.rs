@@ -1,11 +1,10 @@
 pub use axum::response::{Html, IntoResponse};
 pub use chrono::{Duration, Local};
 pub use sea_orm::{
-    entity::prelude::DateTime, ActiveModelBehavior, ActiveModelTrait, ActiveValue, ColumnTrait,
-    Condition, ConnectionTrait, DatabaseConnection, DatabaseTransaction, DbBackend, DbErr,
-    EntityTrait, FromQueryResult, IntoActiveModel, JoinType, ModelTrait, Order, PaginatorTrait,
-    QueryFilter, QueryOrder, QuerySelect, QueryTrait, Set, TransactionTrait,
-    prelude::Expr
+    entity::prelude::DateTime, prelude::Expr, ActiveModelBehavior, ActiveModelTrait, ActiveValue,
+    ColumnTrait, Condition, ConnectionTrait, DatabaseConnection, DatabaseTransaction, DbBackend,
+    DbErr, EntityTrait, FromQueryResult, IntoActiveModel, JoinType, ModelTrait, Order,
+    PaginatorTrait, QueryFilter, QueryOrder, QuerySelect, QueryTrait, Set, TransactionTrait,
 };
 pub use serde::{Deserialize, Serialize};
 pub use serde_json::json;
@@ -22,8 +21,8 @@ pub use crate::{
         ApiResponse,
     },
     config::APPCOFIG,
+    db::{with_read, DB, DB_AUTO, DB_BY_INDEX, DB_BY_NAME, DB_READ, DB_WRITE, GID},
     midle_ware::jwt::{self, AuthPayload, Claims, UserInfo},
-    DB, GID,
 };
 pub use validator::Validate;
 

@@ -63,25 +63,51 @@ workers:
   num_workers: 1 
 
 # Database Configuration
-database:
-  # Database connection URI
-  uri: {{get_env(name="DATABASE_URL",default="mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluoopen")}}
-  # When enabled, the sql query will be logged.
-  enable_logging: false
-  # Set the timeout duration when acquiring a connection.
-  connect_timeout: 5000
-  # Set the idle duration before closing a connection.
-  idle_timeout: 500
-  # Minimum number of connections for a pool.
-  min_connections: 1
-  # Maximum number of connections for a pool.
-  max_connections: 1
-  # Run migration up when application loaded
-  auto_migrate: true
-  # Truncate database when application loaded. This is a dangerous operation, make sure that you using this flag only on dev environments or test mode
-  dangerously_truncate: false
-  # Recreating schema when application loaded.  This is a dangerous operation, make sure that you using this flag only on dev environments or test mode
-  dangerously_recreate: false 
+databases:
+  - name: primary
+    uri: "mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluowrite"
+    max_connections: 16
+    min_connections: 2
+    connect_timeout: 3000
+    idle_timeout: 300000
+    enable_logging: false
+
+  - name: replica1
+    uri: "mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluoopen"
+    max_connections: 8
+    min_connections: 1
+    connect_timeout: 3000
+    idle_timeout: 300000
+    enable_logging: false
+
+  - name: replica2
+    uri: "mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluoopen"
+    max_connections: 8
+    min_connections: 1
+    connect_timeout: 3000
+    idle_timeout: 300000
+    enable_logging: false
+db_routing:
+  default: "primary"         # 不配则用第一个
+  write:   "primary"         # 不配则用 default
+  reads:   ["replica1", "replica2"]
+
+  # 读库选择策略：round_robin | random | weighted
+  read_strategy: "weighted"
+
+  # 权重（仅对 weighted 生效；未配置的读库默认权重 1）
+  read_weights:
+    replica1: 3
+    replica2: 1
+
+  # 出错重试次数（总尝试次数 = 可用读库数 + fallback_to_write(1/0) + retry_attempts）
+  retry_attempts: 2
+
+  # 单个读库失败后熔断时间（毫秒），期间不再被选中
+  circuit_break_ms: 30000
+
+  # 没有健康读库时是否回退到写库
+  fallback_to_write: true
 
 # Application logging configuration
 logger:

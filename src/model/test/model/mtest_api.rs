@@ -27,7 +27,12 @@ impl TestApiModel {
             .paginate(db, page_per_size);
         let total_pages = paginator.num_pages().await?;
         let list = paginator.fetch_page(page_num - 1).await?;
-        Ok(ListData { list, total, total_pages, page_num })
+        Ok(ListData {
+            list,
+            total,
+            total_pages,
+            page_num,
+        })
     }
 
     pub async fn add(arg: TestApiAdd) -> Result<String> {
@@ -73,5 +78,88 @@ impl TestApiModel {
         } else {
             Err("delete failed".into())
         }
+    }
+
+    pub async fn db_index_test(arg: TestApiEdit) -> Result<String> {
+        let dbread = DB_BY_INDEX(1).await;
+         let model = test_api::Entity::find()
+            .filter(test_api::Column::Id.eq(arg.id))
+            .one(dbread)
+            .await?;
+         if let Some(model) = model {
+            let mut active_model: test_api::ActiveModel = model.into();
+            active_model.age = Set(arg.age);
+            active_model.name = Set(arg.name);
+            active_model.email = Set(arg.email);
+            active_model.updated_at = Set(Local::now().naive_local());
+            let dbwrite = DB_BY_INDEX(0).await;
+            let _ = active_model.update(dbwrite).await?;
+
+            Ok("Successfully updated record".to_string())
+        } else {
+            Err("Record not found".into())
+        } 
+    }
+
+     pub async fn db_name_test(arg: TestApiEdit) -> Result<String> {
+        let dbread = DB_BY_NAME("").await;
+         let model = test_api::Entity::find()
+            .filter(test_api::Column::Id.eq(arg.id))
+            .one(dbread)
+            .await?;
+         if let Some(model) = model {
+            let mut active_model: test_api::ActiveModel = model.into();
+            active_model.age = Set(arg.age);
+            active_model.name = Set(arg.name);
+            active_model.email = Set(arg.email);
+            active_model.updated_at = Set(Local::now().naive_local());
+            let dbwrite = DB_BY_NAME("").await;
+            let _ = active_model.update(dbwrite).await?;
+
+            Ok("Successfully updated record".to_string())
+        } else {
+            Err("Record not found".into())
+        } 
+    }
+
+    pub async fn db_read_write_test(arg: TestApiEdit) -> Result<String> {
+        let dbread = DB_READ().await;
+         let model = test_api::Entity::find()
+            .filter(test_api::Column::Id.eq(arg.id))
+            .one(dbread)
+            .await?;
+         if let Some(model) = model {
+            let mut active_model: test_api::ActiveModel = model.into();
+            active_model.age = Set(arg.age);
+            active_model.name = Set(arg.name);
+            active_model.email = Set(arg.email);
+            active_model.updated_at = Set(Local::now().naive_local());
+            let dbwrite = DB_WRITE().await;
+            let _ = active_model.update(dbwrite).await?;
+
+            Ok("Successfully updated record".to_string())
+        } else {
+            Err("Record not found".into())
+        } 
+    }
+
+     pub async fn db_auto_test(arg: TestApiEdit) -> Result<String> {
+        let dbauto = DB_AUTO();
+         let model = test_api::Entity::find()
+            .filter(test_api::Column::Id.eq(arg.id))
+            .one(dbauto)
+            .await?;
+         if let Some(model) = model {
+            let mut active_model: test_api::ActiveModel = model.into();
+            active_model.age = Set(arg.age);
+            active_model.name = Set(arg.name);
+            active_model.email = Set(arg.email);
+            active_model.updated_at = Set(Local::now().naive_local()); 
+            let _ = active_model.update(dbauto).await?;
+
+            Ok("Successfully updated record".to_string())
+        } else {
+            Err("Record not found".into())
+        } 
     }
 }

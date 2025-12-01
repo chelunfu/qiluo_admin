@@ -21,3 +21,24 @@ pub async fn delete(VQuery(arg): VQuery<TestApiDel>) -> impl IntoResponse {
     let r = TestApiModel::del(arg).await;
     ApiResponse::from_result(r)
 }
+
+
+pub async fn db_index_test(VJson(arg): VJson<TestApiEdit>) -> impl IntoResponse {
+    let r = TestApiModel::db_index_test(arg).await;
+    ApiResponse::from_result(r)
+}
+
+pub async fn db_name_test(VJson(arg): VJson<TestApiEdit>) -> impl IntoResponse {
+    let r = TestApiModel::db_name_test(arg).await;
+    ApiResponse::from_result(r)
+}
+
+pub async fn db_read_write_test(VJson(arg): VJson<TestApiEdit>) -> impl IntoResponse {
+    let r = TestApiModel::db_read_write_test(arg).await;
+    ApiResponse::from_result(r)
+}
+
+pub async fn db_auto_test(VJson(arg): VJson<TestApiEdit>) -> impl IntoResponse {
+    let r = TestApiModel::db_auto_test(arg).await;
+    ApiResponse::from_result(r)
+}

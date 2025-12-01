@@ -73,7 +73,7 @@ impl UnitOfWork {
 
     fn retry_job_at(count: usize) -> chrono::DateTime<chrono::Utc> {
         let seconds_to_delay =
-            count.pow(4) + 15 + (rand::thread_rng().gen_range(0..30) * (count + 1));
+            count.pow(4) + 15 + (rand::rng().random_range(0..30) * (count + 1));
 
         chrono::Utc::now() + chrono::Duration::seconds(seconds_to_delay as i64)
     }

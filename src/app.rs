@@ -29,7 +29,7 @@ use tracing_subscriber::{
 use crate::cache::CacheManager;
 use crate::midle_ware::{ApiMid, AuthMid, OperateLogMid, RequestLogMid};
 use crate::worker::processor_job;
-use crate::DB;
+use crate::db::DB;
 
 use crate::service::sys::s_sys_job;
 

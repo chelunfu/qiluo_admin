@@ -4,14 +4,16 @@ use crate::common::{error::Result, tera};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_variant::to_variant_name;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap,HashMap};
 use std::env;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct AppConfig {
     pub logger: Logger,
     pub server: Server,
-    pub database: Database,
+    pub databases: Vec<DbCfg>,
+     #[serde(default)]
+    pub db_routing: Option<DbRoutingCfg>,
     pub cache: CacheConfig,
     #[serde(default)]
     pub workers: Workers,
@@ -141,71 +143,62 @@ pub enum Format {
     #[serde(rename = "json")]
     Json,
 }
-/// Database configuration
-///
-/// Configures the [SeaORM](https://www.sea-ql.org/SeaORM/) connection and pool, as well as Loco's additional DB
-/// management utils such as `auto_migrate`, `truncate` and `recreate`.
-///
-/// Example (development):
-/// ```yaml
-/// # config/development.yaml
-/// database:
-///   uri: {{ get_env(name="DATABASE_URL", default="...") }}
-///   enable_logging: true
-///   connect_timeout: 500
-///   idle_timeout: 500
-///   min_connections: 1
-///   max_connections: 1
-///   auto_migrate: true
-///   dangerously_truncate: false
-///   dangerously_recreate: false
-/// ```
+
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[allow(clippy::struct_excessive_bools)]
-pub struct Database {
-    /// The URI for connecting to the database. For example:
-    /// * Postgres: `postgres://root:12341234@localhost:5432/myapp_development`
-    /// * Sqlite: `sqlite://db.sqlite?mode=rwc`
+pub struct DbCfg  {
+    pub name: String,
     pub uri: String,
-
-    /// Enable `SQLx` statement logging
-    pub enable_logging: bool,
-
-    /// Minimum number of connections for a pool
-    pub min_connections: u32,
-
-    /// Maximum number of connections for a pool
+    #[serde(default = "default_max_connections")]
     pub max_connections: u32,
-
-    /// Set the timeout duration when acquiring a connection
-    pub connect_timeout: u64,
-
-    /// Set the idle duration before closing a connection
-    pub idle_timeout: u64,
-
-    /// Set the timeout for acquiring a connection
-    pub acquire_timeout: Option<u64>,
-
-    /// Run migration up when application loads. It is recommended to turn it on
-    /// in development. In production keep it off, and explicitly migrate your
-    /// database every time you need.
+    #[serde(default = "default_min_connections")]
+    pub min_connections: u32,
+    #[serde(default = "default_connect_timeout_ms")]
+    pub connect_timeout: u64,  
+    #[serde(default = "default_idle_timeout_ms")]
+    pub idle_timeout: u64,    
     #[serde(default)]
-    pub auto_migrate: bool,
-
-    /// Truncate database when application loads. It will delete data from your
-    /// tables. Commonly used in `test`.
-    #[serde(default)]
-    pub dangerously_truncate: bool,
-
-    /// Recreate schema when application loads. Use it when you want to reset
-    /// your database *and* structure (drop), this also deletes all of the data.
-    /// Useful when you're just sketching out your project and trying out
-    /// various things in development.
-    #[serde(default)]
-    pub dangerously_recreate: bool,
+    pub enable_logging: bool,
+ 
 }
+fn default_max_connections() -> u32 { 16 }
+fn default_min_connections() -> u32 { 1 }
+fn default_connect_timeout_ms() -> u64 { 3000 }
+fn default_idle_timeout_ms() -> u64 { 300_000 }
 
+#[derive(Debug, Clone, Deserialize,Serialize,Default)]
+#[serde(rename_all = "snake_case")] 
+pub enum ReadStrategy {
+    #[default]
+    RoundRobin,
+    Random,
+    Weighted,
+}
+ 
+fn default_retry_attempts() -> usize { 2 }
+fn default_circuit_break_ms() -> u64 { 30_000 }
+fn default_fallback_to_write() -> bool { true }
+#[derive(Debug, Clone, Default, Deserialize,Serialize)]
+pub struct DbRoutingCfg {
+    pub default: Option<String>,
+    pub write: Option<String>,
+    pub reads: Option<Vec<String>>,
+ 
+    pub read_strategy: ReadStrategy,
 
+    #[serde(default)]
+    pub read_weights: Option<HashMap<String, u32>>,
+
+    #[serde(default = "default_retry_attempts")]
+    pub retry_attempts: usize,
+
+    #[serde(default = "default_circuit_break_ms")]
+    pub circuit_break_ms: u64,
+
+    #[serde(default = "default_fallback_to_write")]
+    pub fallback_to_write: bool,
+}
 
 /// User authentication configuration.
 ///

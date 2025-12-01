@@ -1,6 +1,6 @@
 use super::{Job, Processor, Result, Worker};
 use crate::cache::CacheManager;
-use crate::GID;
+use crate::db::GID;
 pub use cron_clock::{Schedule as Cron, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;

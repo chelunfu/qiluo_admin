@@ -39,4 +39,27 @@ fn test_test_api() -> WebPath {
             Some("删除TestApi"),
             delete(s_test_api::delete),
         )
+        .route(
+            "/db_index_test",
+            WebPathType::Put,
+            Some("db_index_test"),
+            put(s_test_api::db_index_test),
+        ).route(
+            "/db_name_test",
+            WebPathType::Put,
+            Some("db_name_test"),
+            put(s_test_api::db_name_test),
+        )
+        .route(
+            "/db_read_write_test",
+            WebPathType::Put,
+            Some("db_read_write_test"),
+            put(s_test_api::db_read_write_test),
+        )
+        .route(
+            "/db_auto_test",
+            WebPathType::Put,
+            Some("db_auto_test"),
+            put(s_test_api::db_auto_test),
+        )
 }
