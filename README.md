@@ -29,6 +29,7 @@ QiLuo is an enterprise-grade rapid development platform built on the Rust techno
 - **⏰ Scheduled Tasks** — Online configuration of scheduled tasks, supporting Cron expressions
 - **🎨 Modern Interface** — Vue-based management backend with a beautiful interface and convenient operation
 - **🔀 Read-Write Splitting** — Supports database master-replica architecture with automatic routing of read and write requests to improve query performance and system availability.
+- **🏢 Multi-Tenancy (Data Isolation)** — Supports logical or physical data isolation by tenant ID, meeting security and compliance needs in SaaS environments.
 
 ## 🛠️ Technology Stack
 
@@ -404,5 +405,6 @@ Special thanks to the following open-source projects:
 The growth of this project wouldn't be possible without support from our community ❤️  
 - Thanks to WeChat user **Mù Tóu Rén** for contributing the complete Docker configuration files;  
 - Thanks to QQ user **Shèn Dú** for the generous donation of ¥20!
+- And a big thank you to **everyone** who has starred the repo, opened issues, or voted on features—your engagement keeps this project alive!
 
 We truly appreciate every bit of your support!

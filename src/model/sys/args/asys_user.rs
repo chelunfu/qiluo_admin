@@ -50,8 +50,9 @@ pub struct SysUserRes {
     pub avatar: Option<String>,
     pub status: Option<String>,
     pub remark: Option<String>,
-    pub create_time: Option<DateTime>,
+    pub created_at: Option<DateTime>,
     pub role_name: String,
+    pub dept_name: Option<String>,
 }
 #[derive(Serialize, Clone, Deserialize, Debug, FromQueryResult)]
 pub struct SysUserAndRole {

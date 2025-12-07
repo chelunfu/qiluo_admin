@@ -12,10 +12,10 @@ use std::{
     collections::{HashMap, HashSet},
     sync::{
         atomic::{AtomicUsize, Ordering},
-        Mutex,
     },
     time::{Duration, Instant},
 };
+use parking_lot::Mutex;
 use tokio::sync::OnceCell;
 
 use crate::config::{
@@ -326,7 +326,7 @@ impl DbRegistry {
 
     pub(super) fn mark_down(&self, idx: usize) {
         if let Some(rw) = &self.rw {
-            let mut h = self.health.lock().unwrap();
+            let mut h = self.health.lock();
             let until = Instant::now() + rw.circuit_break;
             if let Some(slot) = h.down_until.get_mut(idx) {
                 *slot = Some(until);
@@ -336,7 +336,7 @@ impl DbRegistry {
 
     pub(super) fn is_healthy(&self, idx: usize) -> bool {
         let now = Instant::now();
-        let mut h = self.health.lock().unwrap();
+        let mut h = self.health.lock();
 
         if let Some(opt) = h.down_until.get_mut(idx) {
             match opt {
@@ -358,11 +358,34 @@ impl DbRegistry {
             return Some(self.default_idx);
         };
 
+        let now = Instant::now();
+        let health_snapshot: Vec<bool> = {
+            let mut h = self.health.lock();
+            rw.reads
+                .iter()
+                .map(|r| {
+                    if let Some(opt) = h.down_until.get_mut(r.idx) {
+                        match opt {
+                            Some(until) if now >= *until => {
+                                *opt = None;
+                                true
+                            }
+                            Some(_) => false,
+                            None => true,
+                        }
+                    } else {
+                        true
+                    }
+                })
+                .collect()
+        }; // 锁在这里释放
+
         let healthy: Vec<&ReadReplica> = rw
             .reads
             .iter()
-            .filter(|r| !exclude.contains(&r.idx))
-            .filter(|r| self.is_healthy(r.idx))
+            .enumerate()
+            .filter(|(i, r)| !exclude.contains(&r.idx) && health_snapshot[*i])
+            .map(|(_, r)| r)
             .collect();
 
         if healthy.is_empty() {

@@ -3,9 +3,13 @@ use sea_orm::Statement;
 pub use super::args::asys_dept::*;
 pub use super::entity::sys_dept::{self, ActiveModel, Model as SysDeptModel};
 use crate::model::prelude::*;
-
+use crate::service::data_scope::DataScopeContext;
 impl SysDeptModel {
-    pub async fn list_tree(arg: PageParams, search: SysDeptSearch) -> Result<ListData<DeptResp>> {
+    pub async fn list_tree(
+        arg: PageParams,
+        search: SysDeptSearch,
+        userinfo: UserInfo,
+    ) -> Result<ListData<DeptResp>> {
         let page_num = arg.page_num.unwrap_or(1);
         let page_per_size = arg.page_size.unwrap_or(10);
         let db = DB().await;
@@ -13,6 +17,12 @@ impl SysDeptModel {
         rmodel = rmodel.filter(sys_dept::Column::DeletedAt.is_null());
         if let Some(dept_name) = search.dept_name {
             rmodel = rmodel.filter(sys_dept::Column::DeptName.contains(dept_name));
+        }
+
+        let scope = DataScopeContext::from_user_id(db, userinfo.uid).await?;
+
+        if let Some(cond) = scope.to_dept_condition_for_list(userinfo.did) {
+            rmodel = rmodel.filter(cond);
         }
         let total = rmodel.clone().count(db).await.unwrap();
         let paginator = rmodel
@@ -87,10 +97,14 @@ impl SysDeptModel {
         Ok("Success".to_string())
     }
 
-    pub async fn get_all() -> Result<Vec<DeptResp>> {
+    pub async fn get_all(userinfo: UserInfo) -> Result<Vec<DeptResp>> {
         let db = DB().await;
         let mut rmodel = sys_dept::Entity::find();
         rmodel = rmodel.filter(sys_dept::Column::DeletedAt.is_null());
+        let scope = DataScopeContext::from_user_id(db, userinfo.uid).await?;
+        if let Some(cond) = scope.to_dept_condition_for_list(userinfo.did) {
+            rmodel = rmodel.filter(cond);
+        }
         let modes = rmodel.into_model::<DeptResp>().all(db).await?;
         Ok(modes)
     }
@@ -127,7 +141,7 @@ impl SysDeptModel {
             where_clause.pop();
         }
 
-        query.push_str(&format!(" WHERE dept_id IN ({where_clause})")); 
+        query.push_str(&format!(" WHERE dept_id IN ({where_clause})"));
 
         let stmt: Statement = Statement::from_string(DbBackend::MySql, query.as_str());
 

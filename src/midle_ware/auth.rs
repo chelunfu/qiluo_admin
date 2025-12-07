@@ -126,5 +126,6 @@ pub async fn request_log_fn_mid(
 
     // 重新构建请求
     let rebuilt_request = Request::from_parts(parts, Body::from(body_bytes));
+     tracing::info!("auth end");
     Ok(next.run(rebuilt_request).await)
 }

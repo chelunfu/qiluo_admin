@@ -223,8 +223,9 @@ pub async fn change_password(VJson(arg): VJson<ChangePasswordParams>) -> impl In
 pub async fn list(
     VQuery(arg): VQuery<PageParams>,
     VQuery(search): VQuery<UserSearch>,
+    userinfo: UserInfo,
 ) -> impl IntoResponse {
-    let rlist = SysUserModel::list(arg, search).await;
+    let rlist = SysUserModel::list(arg, search,userinfo).await;
     ApiResponse::from_result(rlist)
 }
 

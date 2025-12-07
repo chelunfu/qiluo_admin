@@ -84,5 +84,6 @@ bb8-redis = "0.24.0"
 tokio-rustls = "0.26.4"
 tracing-appender = "0.2.3"
 axum-server = {version="0.7.3",features=["tls-rustls"]}
+parking_lot = "0.12.5"
 [target.x86_64-unknown-linux-musl.dependencies]
 openssl = { version = "0.10", features = ["vendored"] }

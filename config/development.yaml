@@ -65,7 +65,7 @@ workers:
 # Database Configuration
 databases:
   - name: primary
-    uri: "mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluowrite"
+    uri: "mysql://qiluo:Qiluo123@127.0.0.1:3306/qiluoopen"
     max_connections: 16
     min_connections: 2
     connect_timeout: 3000
@@ -128,7 +128,7 @@ logger:
 
 cache:
   # Cache type, options: redis, memory
-  cache_type: memory
+  cache_type: redis
   namespace: qiluo  
   pool_size: 12
   # Queue Configuration
@@ -166,6 +166,6 @@ snowgenera:
   node_id: 1
 
 system:
-  # 超级管理员账号ID列表
+  # 超级管理员角色ID列表
   super_role:
     - 1

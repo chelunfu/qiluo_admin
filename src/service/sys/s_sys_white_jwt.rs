@@ -18,10 +18,12 @@ pub async fn delete(VJson(arg): VJson<WhiteJwtDel>) -> impl IntoResponse {
     ApiResponse::from_result(rid)
 }
 pub async fn get_token(token_id: i64) -> Result<WhiteJwtRes> {
+      tracing::info!("get_token1");
     let cache = CacheManager::instance().await;
     let white_jet = cache
         .get_value::<WhiteJwtRes>(&format!("user:{}", token_id))
         .await;
+      tracing::info!("get_token2");
     match white_jet {
         Ok(r) => Ok(r),
         Err(_) => {

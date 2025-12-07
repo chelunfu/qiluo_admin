@@ -6,9 +6,14 @@ pub use super::entity::{
 };
 use crate::model::prelude::*;
 use crate::model::sys::entity::sys_dept;
+use crate::service::data_scope::DataScopeContext;
 
 impl SysUserModel {
-    pub async fn list(arg: PageParams, search: UserSearch) -> Result<ListData<SysUserRes>> {
+    pub async fn list(
+        arg: PageParams,
+        search: UserSearch,
+        userinfo: UserInfo,
+    ) -> Result<ListData<SysUserRes>> {
         let page_num = arg.page_num.unwrap_or(1);
         let page_size = arg.page_size.unwrap_or(10);
         let db = DB().await;
@@ -20,7 +25,7 @@ impl SysUserModel {
 
         let mut rmodel = sys_user::Entity::find();
 
-        let mut cond = Condition::all(); //.add(sys_user::Column::DeptId.eq(search.dept_id));
+        let mut cond = Condition::all();
 
         cond = cond.add(sys_user::Column::DeletedAt.is_null());
 
@@ -44,6 +49,11 @@ impl SysUserModel {
                 .to(sys_user::Column::DeptId)
                 .into(),
         );
+        let scope = DataScopeContext::from_user_id(db, userinfo.uid).await?;
+        if let Some(cond) = scope.to_user_condition(userinfo.uid) {
+            rmodel = rmodel.filter(cond);
+        }
+
         rmodel = rmodel.filter(
             Condition::all()
                 .add(sys_dept::Column::Lft.gte(dept.clone().unwrap().lft))
@@ -56,6 +66,8 @@ impl SysUserModel {
                 .to(sys_user::Column::RoleId)
                 .into(),
         );
+        rmodel = rmodel.columns([sys_dept::Column::DeptName]);
+
         rmodel = rmodel.columns([sys_role::Column::RoleName]);
         rmodel = rmodel.column_as(sys_role::Column::RoleId, "ARoleId");
 
@@ -254,7 +266,6 @@ impl SysUserModel {
         );
         rmode = rmode.columns([
             sys_user::Column::Id,
-            sys_user::Column::TenantId,
             sys_user::Column::DeptId,
             sys_user::Column::UserName,
             sys_user::Column::NickName,
