@@ -1,6 +1,6 @@
 # QiLuo - Rust Rapid Development Platform
 <a href="https://www.qiluo.vip/" target="_blank">
-  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" style="max-width: 30%;">
+  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" width="150" style="height: auto;">
 </a>
 
 **High Performance · Secure and Reliable · Enterprise-grade Application Development Framework**

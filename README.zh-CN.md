@@ -1,6 +1,6 @@
 # 祺洛 (QiLuo) - Rust 快速开发平台
 <a href="https://www.qiluo.vip/" target="_blank">
-  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" style="max-width: 30%;">
+  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" width="150" style="height: auto;">
 </a>
 
 **高性能 · 安全可靠 · 企业级应用开发框架**
