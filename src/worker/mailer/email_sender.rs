@@ -1,9 +1,8 @@
- use super::{Email, DEFAULT_FROM_SENDER};
+use super::{Email, DEFAULT_FROM_SENDER};
 use crate::common::error::{Error, Result};
 use lettre::{
-    message::MultiPart, transport::smtp::authentication::Credentials, AsyncTransport, Message,
-    Tokio1Executor, Transport,
-}; 
+    AsyncTransport, Message, Tokio1Executor, Transport, message::{MultiPart, SinglePart}, transport::smtp::authentication::Credentials
+};
 use tracing::info;
 
 #[derive(Clone)]
@@ -20,7 +19,7 @@ pub struct EmailSender {
 }
 
 impl EmailSender {
-    pub fn smtp(config: &crate:: config::appconfig::SmtpMailer) -> Result<Self> {
+    pub fn smtp(config: &crate::config::appconfig::SmtpMailer) -> Result<Self> {
         let mut email_builder = if config.secure {
             lettre::AsyncSmtpTransport::<Tokio1Executor>::relay(&config.host)
                 .map_err(|error| {
@@ -44,7 +43,13 @@ impl EmailSender {
     }
 
     pub async fn mail(&self, email: &Email) -> Result<String> {
-        let content = MultiPart::alternative_plain_html(email.text.clone(), email.html.clone());
+        let content = if email.html.trim().is_empty() {
+            // 只有纯文本
+            MultiPart::alternative().singlepart(SinglePart::plain(email.text.clone()))
+        } else {
+            // 同时提供纯文本 + HTML
+            MultiPart::alternative_plain_html(email.text.clone(), email.html.clone())
+        };
         let mut builder = Message::builder()
             .from(
                 email
@@ -65,12 +70,11 @@ impl EmailSender {
             .map_err(|error| {
                 tracing::error!(err.msg = %error, err.detail = ?error, "email_building_error");
                 Error::Message("error building email message".to_owned())
-            })
-            ?;
+            })?;
 
         match &self.transport {
-            EmailTransport::Smtp(xp) => {                
-               // xp.send(msg).await?;
+            EmailTransport::Smtp(xp) => {
+                // xp.send(msg).await?;
                 match xp.send(msg).await {
                     Ok(_) => info!("Email sent successfully!"),
                     Err(e) => info!("Could not send email: {e:?}"),
@@ -78,11 +82,9 @@ impl EmailSender {
             }
             EmailTransport::Test(xp) => {
                 xp.send(&msg)
-                    .map_err(|_| Error::Message("sending email error".into()))
-                   ?;
+                    .map_err(|_| Error::Message("sending email error".into()))?;
             }
         };
         Ok("sc".to_owned())
     }
 }
- 

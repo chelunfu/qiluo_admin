@@ -1,11 +1,17 @@
 # QiLuo - Rust Rapid Development Platform
 <a href="https://www.qiluo.vip/" target="_blank">
-  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" style="max-width: 100%;">
+  <img src="https://www.qiluo.vip/logo.png" alt="QiLuo" style="max-width: 30%;">
 </a>
 
 **High Performance · Secure and Reliable · Enterprise-grade Application Development Framework**
 
 <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+<img src="https://gitcode.com/will_csdn_go/qiluo_admin/star/2025top.svg?style=flat-square&logoSize=14"
+  alt="AtomGit GStar 2025" height="20">
+  <img src="https://img.shields.io/github/stars/chelunfu/qiluo_admin?style=flat-square&logo=github&color=ffcb2b&logoSize=14" alt="Stars" height="20">
+  <img src="https://atomgit.com/will_csdn_go/qiluo_admin/star/badge.svg?style=flat-square&logoSize=14" alt="AtomGit GStar" height="20">
+  <a href='https://gitee.com/chenlunfu/qiluo_admin/stargazers'><img src='https://gitee.com/chenlunfu/qiluo_admin/badge/star.svg?theme=dark' alt='star'></img></a>
+   
 <a href="https://www.qiluo.vip/" target="_blank"><img src="https://www.qiluo.vip/badge/QiLuo.svg" alt="QiLuo"></a>
 <a href="https://www.rust-lang.org/" target="_blank"><img src="https://www.qiluo.vip/badge/Rust-latest-orange.svg" alt="Rust"></a>
 <a href="https://github.com/tokio-rs/axum" target="_blank"><img src="https://www.qiluo.vip/badge/Axum-latest-blue.svg" alt="Axum"></a>
@@ -83,7 +89,6 @@ cd qiluo_admin
 ```
 ---
 ##### GitCode <https://gitcode.com/will_csdn_go/qiluo_admin.git>
-![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
 ```bash
 git clone https://gitcode.com/will_csdn_go/qiluo_admin.git
 cd qiluo_admin
@@ -106,7 +111,6 @@ cd qiluo_vue
 ```
 ---
 ##### GitCode <https://gitcode.com/will_csdn_go/qiluo_vue.git>
-![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
 ```bash
 git clone https://gitcode.com/will_csdn_go/qiluo_vue.git
 cd qiluo_vue
@@ -127,7 +131,6 @@ cd qiluo_tauri
 ```
 ---
 ##### GitCode <https://gitcode.com/will_csdn_go/qiluo_tauri.git>
-![star](https://gitcode.com/will_csdn_go/qiluo_admin/star/badge.svg) 
 ```bash
 git clone https://gitcode.com/will_csdn_go/qiluo_tauri.git
 cd qiluo_tauri

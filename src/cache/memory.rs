@@ -381,7 +381,7 @@ impl MemoryCache {
         keys: Vec<String>,
         _timeout: usize,
     ) -> Result<Option<(String, String)>> {
-        // 简单实现，不支持阻塞
+        
         for key in keys {
             let namespaced_key = self.get_namespaced_key(&key).await;
             if let Some(mut list) = self.lists.get_mut(&namespaced_key) {
