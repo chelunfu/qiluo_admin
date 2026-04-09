@@ -37,8 +37,7 @@ pub async fn tree(uinfo: UserInfo) -> impl IntoResponse {
 pub async fn all_router(uinfo: UserInfo) -> impl IntoResponse {
     let menus: Vec<MenuResp> = SysMenuModel::get_menus(true, false, true, uinfo.rid)
         .await
-        .unwrap();
-    info!("{:?}", menus.len());
+        .unwrap(); 
     let menu_data = self::get_menu_route_data(menus);
 
     let menu_tree = self::get_menu_route_tree(menu_data, 0);

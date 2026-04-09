@@ -70,7 +70,6 @@ where
     type Rejection = AuthError;
     /// 将用户信息注入request
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
-        tracing::info!("UserInfo");
         let token_v = get_bear_token(parts).await?;
         // Decode the user data
 
@@ -97,18 +96,15 @@ where
                 }
             },
         };
-        let claims: Claims = token_data.claims;
-  tracing::info!("UserInfo2");
-        let userinfo = s_sys_user::get_user_info(claims.uid).await;
-  tracing::info!("UserInfo3");
+        let claims: Claims = token_data.claims; 
+        let userinfo = s_sys_user::get_user_info(claims.uid).await; 
         let userinfo = match userinfo {
             Ok(user) => user,
             Err(err) => {
                 tracing::info!("AuthError:{:?}", err);
                 return Err(AuthError::NoneRole);
             }
-        };
-        tracing::info!(" userinfo.rid:{:?}", userinfo.rid);
+        }; 
         let user = UserInfo {
             username: claims.username,
             uid: claims.uid,

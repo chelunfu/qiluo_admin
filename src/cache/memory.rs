@@ -3,7 +3,9 @@ use crate::common::error::Result;
 use crate::model::prelude::ListData;
 use crate::model::sys::args::acache::CacheItem;
 use dashmap::DashMap;
+use ordered_float::OrderedFloat;
 use serde::{Deserialize, Serialize};
+use std::collections::{BTreeMap, HashMap, VecDeque};
 use std::sync::Arc;
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use tokio::sync::RwLock;
@@ -62,13 +64,19 @@ impl MemoryItem {
     }
 }
 
+#[derive(Debug, Default, Clone)]
+struct SortedSet {
+    by_score: BTreeMap<OrderedFloat<f64>, String>,
+    by_member: HashMap<String, OrderedFloat<f64>>,
+}
+
 #[derive(Debug)]
 pub struct MemoryCache {
     storage: Arc<DashMap<String, MemoryItem>>,
     namespace: Arc<RwLock<String>>,
-    lists: Arc<DashMap<String, Vec<String>>>,
+    lists: Arc<DashMap<String, VecDeque<String>>>,
     sets: Arc<DashMap<String, DashMap<String, bool>>>,
-    sorted_sets: Arc<DashMap<String, Vec<(String, f64)>>>,
+    sorted_sets: Arc<DashMap<String, SortedSet>>,
 }
 
 impl MemoryCache {
@@ -119,16 +127,19 @@ impl MemoryCache {
 
     pub async fn get_string(&self, k: &str) -> Result<String> {
         let key = self.get_namespaced_key(k).await;
-        if let Some(item) = self.storage.get(&key) {
-            if item.is_expired() {
-                self.storage.remove(&key);
-                Err("Key not found or expired".into())
-            } else {
-                Ok(item.value.clone())
+
+        let (value, expired) = {
+            match self.storage.get(&key) {
+                Some(item) => (Some(item.value.clone()), item.is_expired()),
+                None => (None, false),
             }
-        } else {
-            Err("Key not found or expired".into())
+        };
+        if expired {
+            self.storage.remove(&key);
+            return Err("Key not found or expired".into());
         }
+
+        value.ok_or_else(|| "Key not found or expired".into())
     }
 
     pub async fn set_string_ex(&self, k: &str, v: &str, t: i32) -> Result<bool> {
@@ -161,20 +172,20 @@ impl MemoryCache {
     pub async fn contains_key(&self, k: &str) -> bool {
         let key = self.get_namespaced_key(k).await;
 
-        // 检查字符串存储
-        if let Some(item) = self.storage.get(&key) {
-            if item.is_expired() {
+        let expired = { self.storage.get(&key).map(|item| item.is_expired()) };
+
+        match expired {
+            Some(true) => {
                 self.storage.remove(&key);
-                return false;
-            } else {
-                return true;
+                false
+            }
+            Some(false) => true,
+            None => {
+                self.lists.contains_key(&key)
+                    || self.sets.contains_key(&key)
+                    || self.sorted_sets.contains_key(&key)
             }
         }
-
-        // 检查其他数据类型
-        self.lists.contains_key(&key)
-            || self.sets.contains_key(&key)
-            || self.sorted_sets.contains_key(&key)
     }
 
     pub async fn ttl(&self, k: &str) -> Result<i64> {
@@ -182,27 +193,35 @@ impl MemoryCache {
         if let Some(item) = self.storage.get(&key) {
             Ok(item.ttl())
         } else {
-            Ok(-2) // key 不存在
+            Ok(-2)
         }
     }
 
     pub async fn get_one_use(&self, k: &str) -> Result<String> {
-        let result = self.get_string(k).await;
-        if result.is_ok() {
-            let _ = self.remove(k).await;
+        let key = self.get_namespaced_key(k).await;
+        if let Some((_, item)) = self.storage.remove(&key) {
+            if item.is_expired() {
+                return Err("Key not found or expired".into());
+            }
+            Ok(item.value)
+        } else {
+            Err("Key not found or expired".into())
         }
-        result
     }
 
     pub async fn get_oneuse_value<T>(&self, k: &str) -> Result<T>
     where
         T: Serialize + for<'de> Deserialize<'de> + Clone,
     {
-        let result = self.get_value(k).await;
-        if result.is_ok() {
-            let _ = self.remove(k).await;
+        let key = self.get_namespaced_key(k).await;
+        if let Some((_, item)) = self.storage.remove(&key) {
+            if item.is_expired() {
+                return Err("Key not found or expired".into());
+            }
+            Ok(serde_json::from_str(&item.value)?)
+        } else {
+            Err("Key not found or expired".into())
         }
-        result
     }
 
     pub async fn get_all(&self) -> Result<Vec<(String, String)>> {
@@ -257,7 +276,7 @@ impl MemoryCache {
 
             let display_key = key.clone();
 
-            let count = entry.value().len();
+            let count = entry.value().by_score.len();
             items.push(CacheItem {
                 key: display_key,
                 value: format!("ZSET ({} members)", count),
@@ -352,9 +371,13 @@ impl MemoryCache {
     }
 
     pub async fn with_namespace(&self, namespace: String) -> Self {
-        let new_cache = self.clone();
-        *new_cache.namespace.write().await = namespace;
-        new_cache
+        Self {
+            storage: Arc::clone(&self.storage),
+            namespace: Arc::new(RwLock::new(namespace)),
+            lists: Arc::clone(&self.lists),
+            sets: Arc::clone(&self.sets),
+            sorted_sets: Arc::clone(&self.sorted_sets),
+        }
     }
 
     pub async fn set_namespace(&self, namespace: String) {
@@ -381,11 +404,10 @@ impl MemoryCache {
         keys: Vec<String>,
         _timeout: usize,
     ) -> Result<Option<(String, String)>> {
-        
         for key in keys {
             let namespaced_key = self.get_namespaced_key(&key).await;
             if let Some(mut list) = self.lists.get_mut(&namespaced_key) {
-                if let Some(value) = list.pop() {
+                if let Some(value) = list.pop_back() {
                     return Ok(Some((key, value)));
                 }
             }
@@ -411,46 +433,46 @@ impl MemoryCache {
     {
         let namespaced_key = self.get_namespaced_key(key).await;
 
-        // 应该检查所有存储结构
-        if self.storage.contains_key(&namespaced_key)
-            || self.lists.contains_key(&namespaced_key)
+        if self.lists.contains_key(&namespaced_key)
             || self.sets.contains_key(&namespaced_key)
             || self.sorted_sets.contains_key(&namespaced_key)
         {
-            Ok(false)
-        } else {
-            let item = MemoryItem::new(value.to_string(), Some(ttl_in_seconds as i32));
-            self.storage.insert(namespaced_key, item);
-            Ok(true)
+            return Ok(false);
         }
+
+        let item = MemoryItem::new(value.to_string(), Some(ttl_in_seconds as i32));
+        let mut inserted = false;
+        self.storage.entry(namespaced_key).or_insert_with(|| {
+            inserted = true;
+            item
+        });
+
+        Ok(inserted)
     }
 
     pub async fn zrange(&self, key: &str, start: i64, stop: i64) -> Result<Vec<String>> {
         let namespaced_key = self.get_namespaced_key(key).await;
         if let Some(sorted_set) = self.sorted_sets.get(&namespaced_key) {
-            let len = sorted_set.len() as i64;
+            let len = sorted_set.by_score.len() as i64;
             let start = if start < 0 {
                 (len + start).max(0)
             } else {
-                start.min(len - 1)
-            };
+                start.min(len)
+            } as usize;
             let stop = if stop < 0 {
                 (len + stop).max(0)
             } else {
                 stop.min(len - 1)
-            };
+            } as usize;
 
-            if start <= stop {
-                let result = sorted_set
-                    .iter()
-                    .skip(start as usize)
-                    .take((stop - start + 1) as usize)
-                    .map(|(value, _)| value.clone())
-                    .collect();
-                Ok(result)
-            } else {
-                Ok(Vec::new())
-            }
+            let result = sorted_set
+                .by_score
+                .values()
+                .skip(start)
+                .take(stop - start + 1)
+                .cloned()
+                .collect();
+            Ok(result)
         } else {
             Ok(Vec::new())
         }
@@ -466,20 +488,15 @@ impl MemoryCache {
     ) -> Result<Vec<String>> {
         let namespaced_key = self.get_namespaced_key(key).await;
         if let Some(sorted_set) = self.sorted_sets.get(&namespaced_key) {
-            // 1. 首先创建一个排序的副本
-            let mut sorted_items: Vec<_> = sorted_set.iter().cloned().collect();
-            sorted_items.sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
-
-            // 2. 然后按分数范围过滤
-            let filtered: Vec<String> = sorted_items
-                .iter()
-                .filter(|(_, score)| *score >= min_score && *score <= max_score)
+            // BTreeMap range 直接按 score 范围切，O(log n + m)
+            let result = sorted_set
+                .by_score
+                .range(OrderedFloat(min_score)..=OrderedFloat(max_score))
+                .map(|(_, member)| member.clone())
                 .skip(offset as usize)
                 .take(count as usize)
-                .map(|(value, _)| value.clone())
                 .collect();
-
-            Ok(filtered)
+            Ok(result)
         } else {
             Ok(Vec::new())
         }
@@ -491,34 +508,39 @@ impl MemoryCache {
         S: Into<f64> + Send + Sync,
     {
         let namespaced_key = self.get_namespaced_key(key).await;
-        let mut sorted_set = self.sorted_sets.entry(namespaced_key).or_default();
-
+        let mut entry = self.sorted_sets.entry(namespaced_key).or_default();
         let value_str = value.to_string();
-        let score_val = score.into();
+        let score_val = OrderedFloat(score.into());
 
-        // 检查是否已存在，如果存在则更新分数
-        if let Some(pos) = sorted_set.iter().position(|(v, _)| v == &value_str) {
-            let old_score = sorted_set[pos].1;
-            sorted_set[pos].1 = score_val;
+        // 若已存在，先从 by_score 删除旧记录
+        if let Some(&old_score) = entry.by_member.get(&value_str) {
+            entry.by_score.remove(&old_score);
+        }
 
-            // 只有当分数改变时才需要重新排序
-            if old_score != score_val {
-                sorted_set
-                    .sort_by(|a, b| a.1.partial_cmp(&b.1).unwrap_or(std::cmp::Ordering::Equal));
+        let is_new = entry
+            .by_member
+            .insert(value_str.clone(), score_val)
+            .is_none();
+        entry.by_score.insert(score_val, value_str);
+
+        Ok(if is_new { 1 } else { 0 })
+    }
+
+    pub async fn zrem<V>(&self, key: &str, value: V) -> Result<bool>
+    where
+        V: ToString + Send + Sync,
+    {
+        let namespaced_key = self.get_namespaced_key(key).await;
+        if let Some(mut sorted_set) = self.sorted_sets.get_mut(&namespaced_key) {
+            let value_str = value.to_string();
+            if let Some(score) = sorted_set.by_member.remove(&value_str) {
+                sorted_set.by_score.remove(&score);
+                Ok(true)
+            } else {
+                Ok(false)
             }
-
-            Ok(1) // 更新现有元素
         } else {
-            // 新元素：使用二分查找找到正确的插入位置
-            let insert_pos = sorted_set
-                .binary_search_by(|(_, s)| {
-                    s.partial_cmp(&score_val)
-                        .unwrap_or(std::cmp::Ordering::Equal)
-                })
-                .unwrap_or_else(|pos| pos);
-
-            sorted_set.insert(insert_pos, (value_str, score_val));
-            Ok(1) // 添加新元素
+            Ok(false)
         }
     }
 
@@ -528,7 +550,7 @@ impl MemoryCache {
     {
         let namespaced_key = self.get_namespaced_key(key).await;
         let mut list = self.lists.entry(namespaced_key).or_default();
-        list.insert(0, value.to_string());
+        list.push_front(value.to_string());
         Ok(list.len() as i64)
     }
 
@@ -539,24 +561,6 @@ impl MemoryCache {
     {
         // 在 Memory 实现中，zadd_ch 和 zadd 行为相同
         self.zadd(key, value, score).await
-    }
-
-    pub async fn zrem<V>(&self, key: &str, value: V) -> Result<bool>
-    where
-        V: ToString + Send + Sync,
-    {
-        let namespaced_key = self.get_namespaced_key(key).await;
-        if let Some(mut sorted_set) = self.sorted_sets.get_mut(&namespaced_key) {
-            let value_str = value.to_string();
-            if let Some(pos) = sorted_set.iter().position(|(v, _)| v == &value_str) {
-                sorted_set.remove(pos);
-                Ok(true)
-            } else {
-                Ok(false)
-            }
-        } else {
-            Ok(false)
-        }
     }
 }
 
