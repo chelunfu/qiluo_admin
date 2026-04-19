@@ -5,22 +5,22 @@ edition = "2021"
 
 [dependencies]
 migration = { path = "migration" }
-axum = { version = "0.8.7", default-features = true, features = ["http1", "http2", "json", "macros", "matched-path", "original-uri", "multipart", "tokio", "ws", "form", "query"] }
-fs-err = "3.2.0"
-jsonwebtoken ={ version = "10.2.0", features = ["aws_lc_rs"] }
-sea-orm ={ version =  "1.1.19", features = [
+axum = { version = "0.8.9", default-features = true, features = ["http1", "http2", "json", "macros", "matched-path", "original-uri", "multipart", "tokio", "ws", "form", "query"] }
+fs-err = "3.3.0"
+jsonwebtoken ={ version = "10.3.0", features = ["aws_lc_rs"] }
+sea-orm ={ version =  "1.1.20", features = [
   "sqlx-sqlite",
   "sqlx-mysql",
   "runtime-tokio-rustls",
   "macros",
 ] }
 serde = "1.0.228"
-serde_json = "1.0.145"
+serde_json = "1.0.149"
 serde_variant = "0.1.3"
 serde_yaml = "0.9.34"
 tera = "1.20.1" 
-tokio =  { version = "1.48.0", features = ["full"] }
-tower-http = { version =  "0.6.6", features = [
+tokio =  { version = "1.52.1", features = ["full"] }
+tower-http = { version =  "0.6.8", features = [
   "trace",
   "catch-panic",
   "timeout",
@@ -30,60 +30,60 @@ tower-http = { version =  "0.6.6", features = [
   "set-header",
   "compression-full",
 ] }
-tracing = "0.1.41"
-tracing-subscriber = { version = "0.3.20", features = ["env-filter","json","local-time", "registry"]}
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter","json","local-time", "registry"]}
 validator ={ version = "0.20.0", features = ["derive"] }
-hyper = "1.8.1"
-bytes = "1.11.0"
+hyper = "1.9.0"
+bytes = "1.11.1"
 http-body-util = "0.1.3"
-axum-extra ={ version =  "0.12.2", features = ["typed-header"]}
-chrono = "0.4.42"
-once_cell = "1.21.3" 
+axum-extra ={ version =  "0.12.6", features = ["typed-header"]}
+chrono = "0.4.44"
+once_cell = "1.21.4" 
 lazy_static = "1.5.0"
 argon2 = "0.5.3"
-rand = "0.9.2"
-thiserror = "2.0.17"
+rand = "0.10.1"
+thiserror = "2.0.18"
 http-body = "1.0.1"
 captcha_rust = "0.1.3"
-indexmap = "2.12.0"
-reqwest ={ version = "0.12.24", features = ["json"] }
-sysinfo = "0.37.2"
+indexmap = "2.14.0"
+reqwest ={ version = "0.13.2", features = ["json"] }
+sysinfo = "0.38.4"
 user-agent-parser = "0.3.6"
-lettre =  { version ="0.11.19", default-features = false, features = [
+lettre =  { version ="0.11.21", default-features = false, features = [
   "builder",
   "hostname",
   "smtp-transport",
   "tokio1-rustls-tls",
 ] }
 async-trait = "0.1.89"
-bb8 = "0.9.0"    
-time = "0.3.44"
-image = "0.25.9"   
-tokio-util = "0.7.17"
-redis ={version= "0.32",features = [
+bb8 = "0.9.1"    
+time = "0.3.47"
+image = "0.25.10"   
+tokio-util = "0.7.18"
+redis ={version= "1.2",features = [
     "aio",
     "default",
     "tokio-comp",
      "connection-manager"
 ]}
-sha2 = "0.10.9"
-axum-core = "0.5.5"
+sha2 = "0.11.0"
+axum-core = "0.5.6"
 cron_clock = "0.8.0"
-convert_case = "0.9.0"
+convert_case = "0.11.0"
 hex = "0.4.3"
 headers = "0.4.1"
-futures = "0.3.31"
-tokio-stream = "0.1.17"
+futures = "0.3.32"
+tokio-stream = "0.1.18"
 async_static = "0.1.3"
-byte-unit = "5.1.6"
+byte-unit = "5.2.0"
 base64 = "0.22.1" 
-sha1 = "0.10.6"
+sha1 = "0.11.0"
 serde-xml-rs = "0.8.2"  
 dashmap = "6.1.0" 
-bb8-redis = "0.24.0"
+bb8-redis = "0.26.0"
 tokio-rustls = "0.26.4"
-tracing-appender = "0.2.3"
-axum-server = {version="0.7.3",features=["tls-rustls"]}
+tracing-appender = "0.2.5"
+axum-server = {version="0.8.0",features=["tls-rustls"]}
 parking_lot = "0.12.5"
 ordered-float = "5.3.0"
 [target.x86_64-unknown-linux-musl.dependencies]

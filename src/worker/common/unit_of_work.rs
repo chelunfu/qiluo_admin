@@ -1,8 +1,7 @@
 use crate::cache::CacheManager;
 use crate::common::error::Result;
-use rand::Rng;
+use rand::RngExt;
 use sha2::{Digest, Sha256};
-
 use super::Job;
 
 #[derive(Debug)]
@@ -35,7 +34,8 @@ impl UnitOfWork {
         let cache = CacheManager::instance().await;
         if let Some(ref duration) = job.unique_for {
             let args_as_json_string: String = serde_json::to_string(&job.args)?;
-            let args_hash = format!("{:x}", Sha256::digest(&args_as_json_string));
+            let digest = Sha256::digest(&args_as_json_string);
+            let args_hash = digest.iter().map(|b| format!("{:02x}", b)).collect::<String>();
             let redis_key = format!(
                 "enqueue:unique:{}:{}:{}",
                 &job.queue, &job.class, &args_hash
